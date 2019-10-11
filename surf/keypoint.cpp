@@ -48,9 +48,10 @@ listDescriptor* getKeyPoints(image *img,int numberOctave,int numberInterval,list
 
 	//Integral image.
 	imageIntegral* imgInt=computeIntegralImage(img,verbose);
-	image*  hessian[numberInterval];
-	image* signLaplacian[numberInterval];
-
+	// image*  hessian[numberInterval];
+	// image* signLaplacian[numberInterval];
+	image**  hessian = new image*[numberInterval];
+	image** signLaplacian = new image*[numberInterval];
 	
 	//Initialize
 		for(int i=0;i<numberInterval;i++)
@@ -188,11 +189,13 @@ listDescriptor* getKeyPoints(image *img,int numberOctave,int numberInterval,list
 	
 
 	//Let's free memory
-for(int j=0;j<numberInterval;j++)
-{
-delete hessian[j];
-delete signLaplacian[j];
-}
+	for(int j=0;j<numberInterval;j++)
+	{
+	delete hessian[j];
+	delete signLaplacian[j];
+	}
+	delete hessian;
+	delete signLaplacian;
 	//Let's get descriptor now 
 	return getDescriptor(imgInt,lKP);
 }
